@@ -1,5 +1,8 @@
 package dev.ibrahims.sdwebuiapi
 
+import dev.ibrahims.sdwebuiapi.extension.ControlNet
+import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNet
+import dev.ibrahims.sdwebuiapi.process.Process.Companion.text2Image
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.util.*
@@ -12,7 +15,36 @@ fun main() {
         .build()
 
     runBlocking {
+        runReActor(sdWebUiApi)
+    }
+}
 
+suspend fun test(api: WebUiApi) {
+    val inputImage = loadImage("input-1.jpg")
+
+    val unit = ControlNet.Unit.Builder()
+        .inputImage(inputImage)
+        .module("canny")
+        .model("control_canny-fp16 [e3fe7712]")
+        .build()
+
+    val controlNet = ControlNet.Builder()
+        .addUnit(unit)
+        .build()
+
+    val response = api.text2Image()
+        .prompt("spiderman")
+        .samplerName("Euler a")
+        .steps(20)
+        .controlNet(controlNet)
+        .build()
+        .run()
+
+    if (response.isFailure) {
+        return println(response.exceptionOrNull())
+    }
+    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+        saveImage(imageBase64)
     }
 }
 
@@ -29,8 +61,10 @@ fun loadImage(name: String): String {
     return Base64.getEncoder().encodeToString(bytes)
 }
 
-fun saveImage(base64: String, id: String) {
+fun saveImage(base64: String) {
     val bytes = Base64.getDecoder().decode(base64)
-    val file = File("output/output-$id.jpg")
+    val time = System.currentTimeMillis()
+    println("Saving image [output-$time.jpg]...")
+    val file = File("output/output-$time.jpg")
     file.writeBytes(bytes)
 }

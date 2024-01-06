@@ -4,6 +4,7 @@ import dev.ibrahims.sdwebuiapi.payload.script.ADetailerScriptArgs
 import dev.ibrahims.sdwebuiapi.process.Text2Image
 import dev.ibrahims.sdwebuiapi.payload.script.ControlNetScriptArgs
 import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
+import dev.ibrahims.sdwebuiapi.process.Process
 
 class ADetailer private constructor(
     internal val payload: ADetailerScriptArgs,
@@ -125,10 +126,8 @@ class ADetailer private constructor(
 
     companion object {
 
-        fun Text2Image.Builder.aDetailer(aDetailer: ADetailer) = apply {
-            addAlwaysonScripts(
-                mapOf("ADetailer" to ScriptPayload(args = listOf(aDetailer.payload)))
-            )
+        fun <T : Process.Builder> T.aDetailer(aDetailer: ADetailer) = apply {
+            addAlwaysonScript("ADetailer", ScriptPayload.Single(aDetailer.payload))
         }
     }
 }

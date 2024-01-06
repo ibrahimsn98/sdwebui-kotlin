@@ -5,14 +5,41 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
 
-@Serializable
-data class ScriptPayload(
-    @SerialName("args") val args: List<ScriptArgs>,
-)
+@Serializable(with = ScriptSerializer::class)
+sealed class ScriptPayload {
+
+    @Serializable
+    data class Single(
+        @SerialName("args") val args: ScriptArgs,
+    ) : ScriptPayload()
+
+    @Serializable
+    data class Multiple(
+        @SerialName("args") val args: List<ScriptArgs>,
+    ) : ScriptPayload()
+
+    @Serializable
+    data class Array(
+        @SerialName("args") val args: List<JsonPrimitive>,
+    ) : ScriptPayload()
+}
 
 @Serializable(with = ScriptArgsSerializer::class)
 sealed interface ScriptArgs
+
+object ScriptSerializer : JsonContentPolymorphicSerializer<ScriptPayload>(ScriptPayload::class) {
+
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<ScriptPayload> {
+        return when (element::class) {
+            ScriptPayload.Single::class -> ScriptPayload.Single.serializer()
+            ScriptPayload.Multiple::class -> ScriptPayload.Multiple.serializer()
+            ScriptPayload.Array::class -> ScriptPayload.Array.serializer()
+            else -> throw Exception("ERROR: No Serializer found. Serialization failed.")
+        }
+    }
+}
 
 object ScriptArgsSerializer : JsonContentPolymorphicSerializer<ScriptArgs>(ScriptArgs::class) {
 

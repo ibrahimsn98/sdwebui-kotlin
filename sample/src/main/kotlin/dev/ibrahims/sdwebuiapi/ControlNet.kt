@@ -5,10 +5,8 @@ import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNet
 import dev.ibrahims.sdwebuiapi.process.Process.Companion.text2Image
 
 suspend fun runControlNet(api: WebUiApi) {
-    val inputImage = loadImage("input-1.jpg")
-
     val unit = ControlNet.Unit.Builder()
-        .inputImage(inputImage)
+        .inputImage(loadImage("input-1.jpg"))
         .module("canny")
         .model("control_canny-fp16 [e3fe7712]")
         .build()
@@ -28,8 +26,7 @@ suspend fun runControlNet(api: WebUiApi) {
     if (response.isFailure) {
         return println(response.exceptionOrNull())
     }
-    response.getOrNull()?.images.orEmpty().forEachIndexed { i, imageBase64 ->
-        println("Saving image [$i]...")
-        saveImage(imageBase64, i.toString())
+    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+        saveImage(imageBase64)
     }
 }

@@ -16,7 +16,7 @@ class Image2Image private constructor(
 
     class Builder internal constructor(
         private val stableDiffusionService: StableDiffusionService,
-    ) {
+    ) : Process.Builder {
 
         private var initImages: List<String> = emptyList()
         private var prompt: String = ""
@@ -111,9 +111,8 @@ class Image2Image private constructor(
             this.alwaysonScripts.clear()
             this.alwaysonScripts.putAll(alwaysonScripts)
         }
-
-        fun addAlwaysonScripts(alwaysonScripts: Map<String, ScriptPayload>) = apply {
-            this.alwaysonScripts.putAll(alwaysonScripts)
+        override fun addAlwaysonScript(key: String, payload: ScriptPayload) {
+            this.alwaysonScripts[key] = payload
         }
 
         fun build(): Image2Image = Image2Image(

@@ -1,8 +1,8 @@
 package dev.ibrahims.sdwebuiapi.extension
 
-import dev.ibrahims.sdwebuiapi.process.Text2Image
 import dev.ibrahims.sdwebuiapi.payload.script.ControlNetScriptArgs
 import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
+import dev.ibrahims.sdwebuiapi.process.Process
 
 class ControlNet private constructor(
     internal val units: List<Unit>,
@@ -79,10 +79,8 @@ class ControlNet private constructor(
 
     companion object {
 
-        fun Text2Image.Builder.controlNet(controlNet: ControlNet) = apply {
-            addAlwaysonScripts(
-                mapOf("ControlNet" to ScriptPayload(args = controlNet.units.map { unit -> unit.payload }))
-            )
+        fun <T : Process.Builder> T.controlNet(controlNet: ControlNet) = apply {
+            addAlwaysonScript("ControlNet", ScriptPayload.Multiple(controlNet.units.map { unit -> unit.payload }))
         }
     }
 }

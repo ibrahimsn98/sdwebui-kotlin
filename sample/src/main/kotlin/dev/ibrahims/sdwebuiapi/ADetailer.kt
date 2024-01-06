@@ -20,8 +20,7 @@ suspend fun runADetailer(api: WebUiApi) {
     if (response.isFailure) {
         return println(response.exceptionOrNull())
     }
-    response.getOrNull()?.images.orEmpty().forEachIndexed { i, imageBase64 ->
-        println("Saving image [$i]...")
-        saveImage(imageBase64, i.toString())
+    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+        saveImage(imageBase64)
     }
 }

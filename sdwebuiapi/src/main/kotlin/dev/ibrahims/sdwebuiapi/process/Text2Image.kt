@@ -16,7 +16,7 @@ class Text2Image private constructor(
 
     class Builder internal constructor(
         private val stableDiffusionService: StableDiffusionService,
-    ) {
+    ) : Process.Builder {
 
         private var prompt: String = ""
         private var negativePrompt: String = ""
@@ -113,8 +113,8 @@ class Text2Image private constructor(
             this.alwaysonScripts.putAll(alwaysonScripts)
         }
 
-        fun addAlwaysonScripts(alwaysonScripts: Map<String, ScriptPayload>) = apply {
-            this.alwaysonScripts.putAll(alwaysonScripts)
+        override fun addAlwaysonScript(key: String, payload: ScriptPayload) {
+            this.alwaysonScripts[key] = payload
         }
 
         fun build(): Text2Image = Text2Image(
