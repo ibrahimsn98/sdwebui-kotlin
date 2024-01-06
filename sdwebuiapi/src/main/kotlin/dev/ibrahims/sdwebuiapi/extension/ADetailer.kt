@@ -127,7 +127,7 @@ class ADetailer private constructor(
 
         fun Text2Image.Builder.aDetailer(aDetailer: ADetailer) = apply {
             addAlwaysonScripts(
-                mapOf("Adetailer" to ScriptPayload(args = listOf(aDetailer.payload)))
+                mapOf("ADetailer" to ScriptPayload(args = listOf(aDetailer.payload)))
             )
         }
     }
