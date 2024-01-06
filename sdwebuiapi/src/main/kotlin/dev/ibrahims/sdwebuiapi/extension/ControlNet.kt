@@ -9,7 +9,7 @@ class ControlNet private constructor(
 ) : Extension {
 
     class Unit private constructor(
-        internal val payload: ControlNetScriptArgs,
+        internal val args: ControlNetScriptArgs,
     ) {
 
         class Builder {
@@ -47,7 +47,7 @@ class ControlNet private constructor(
             fun pixelPerfect(pixelPerfect: Boolean) = apply { this.pixelPerfect = pixelPerfect }
 
             fun build() = Unit(
-                payload = ControlNetScriptArgs(
+                args = ControlNetScriptArgs(
                     inputImage = inputImage,
                     module = module,
                     model = model,
@@ -79,8 +79,20 @@ class ControlNet private constructor(
 
     companion object {
 
+        fun controlNetUnit(init: Unit.Builder.() -> kotlin.Unit): Unit {
+            val builder = Unit.Builder()
+            builder.init()
+            return builder.build()
+        }
+
+        fun controlNet(init: Builder.() -> kotlin.Unit): ControlNet {
+            val builder = Builder()
+            builder.init()
+            return builder.build()
+        }
+
         fun <T : Process.Builder> T.controlNet(controlNet: ControlNet) = apply {
-            addAlwaysonScript("ControlNet", ScriptPayload.Multiple(controlNet.units.map { unit -> unit.payload }))
+            addAlwaysonScript("ControlNet", ScriptPayload.Multiple(controlNet.units.map { unit -> unit.args }))
         }
     }
 }

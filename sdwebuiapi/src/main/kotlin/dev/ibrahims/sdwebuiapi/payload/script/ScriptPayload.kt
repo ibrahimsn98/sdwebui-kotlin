@@ -47,7 +47,6 @@ object ScriptArgsSerializer : JsonContentPolymorphicSerializer<ScriptArgs>(Scrip
         return when (element::class) {
             ControlNetScriptArgs::class -> ControlNetScriptArgs.serializer()
             ADetailerScriptArgs::class -> ADetailerScriptArgs.serializer()
-            ReActorScriptArgs::class -> ReActorScriptArgs.serializer()
             else -> throw Exception("ERROR: No Serializer found. Serialization failed.")
         }
     }

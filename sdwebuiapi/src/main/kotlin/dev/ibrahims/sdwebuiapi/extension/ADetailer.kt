@@ -1,13 +1,11 @@
 package dev.ibrahims.sdwebuiapi.extension
 
 import dev.ibrahims.sdwebuiapi.payload.script.ADetailerScriptArgs
-import dev.ibrahims.sdwebuiapi.process.Text2Image
-import dev.ibrahims.sdwebuiapi.payload.script.ControlNetScriptArgs
 import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
 import dev.ibrahims.sdwebuiapi.process.Process
 
 class ADetailer private constructor(
-    internal val payload: ADetailerScriptArgs,
+    internal val args: ADetailerScriptArgs,
 ) : Extension {
 
     class Builder {
@@ -87,7 +85,7 @@ class ADetailer private constructor(
         }
 
         fun build() = ADetailer(
-            payload = ADetailerScriptArgs(
+            args = ADetailerScriptArgs(
                 model = model,
                 prompt = prompt,
                 negativePrompt = negativePrompt,
@@ -126,8 +124,14 @@ class ADetailer private constructor(
 
     companion object {
 
+        fun aDetailer(init: Builder.() -> Unit): ADetailer {
+            val builder = Builder()
+            builder.init()
+            return builder.build()
+        }
+
         fun <T : Process.Builder> T.aDetailer(aDetailer: ADetailer) = apply {
-            addAlwaysonScript("ADetailer", ScriptPayload.Single(aDetailer.payload))
+            addAlwaysonScript("ADetailer", ScriptPayload.Single(aDetailer.args))
         }
     }
 }

@@ -5,7 +5,7 @@ import dev.ibrahims.sdwebuiapi.process.Process
 import kotlinx.serialization.json.JsonPrimitive
 
 class ReActor private constructor(
-    internal val payload: List<JsonPrimitive>,
+    internal val args: List<JsonPrimitive>,
 ) : Extension {
 
     class Builder {
@@ -35,34 +35,117 @@ class ReActor private constructor(
         private var selectSource: Int = 0
         private var faceModel: String? = null
 
-        fun image(image: String?) = apply { this.image = image }
-        fun enable(enable: Boolean) = apply { this.enable = enable }
-        fun sourceFacesIndex(sourceFacesIndex: String) = apply { this.sourceFacesIndex = sourceFacesIndex }
-        fun facesIndex(facesIndex: String) = apply { this.facesIndex = facesIndex }
-        fun model(model: String) = apply { this.model = model }
-        fun faceRestorerName(faceRestorerName: String) = apply { this.faceRestorerName = faceRestorerName }
+        /**
+         * Input image
+         */
+        fun image(image: String?) = apply {
+            this.image = image
+        }
+
+        /**
+         * Set ReActor enabled
+         */
+        fun enable(enable: Boolean) = apply {
+            this.enable = enable
+        }
+
+        /**
+         * Face numbers from swap-source image
+         * Example: "0,1"
+         */
+        fun sourceFacesIndex(sourceFacesIndex: String) = apply {
+            this.sourceFacesIndex = sourceFacesIndex
+        }
+
+        /**
+         * Face numbers for result image
+         * Example: "0,1"
+         */
+        fun facesIndex(facesIndex: String) = apply {
+            this.facesIndex = facesIndex
+        }
+
+        /**
+         * ReActor model
+         */
+        fun model(model: String) = apply {
+            this.model = model
+        }
+
+        fun faceRestorerName(faceRestorerName: String) = apply {
+            this.faceRestorerName = faceRestorerName
+        }
+
         fun faceRestorerVisibility(faceRestorerVisibility: Float) = apply {
             this.faceRestorerVisibility = faceRestorerVisibility
         }
-        fun restoreFirst(restoreFirst: Boolean) = apply { this.restoreFirst = restoreFirst }
-        fun upscalerName(upscalerName: String) = apply { this.upscalerName = upscalerName }
-        fun upscalerScale(upscalerScale: Int) = apply { this.upscalerScale = upscalerScale }
-        fun upscalerVisibility(upscalerVisibility: Float) = apply { this.upscalerVisibility = upscalerVisibility }
-        fun swapInSource(swapInSource: Boolean) = apply { this.swapInSource = swapInSource }
-        fun swapInGenerated(swapInGenerated: Boolean) = apply { this.swapInGenerated = swapInGenerated }
-        fun consoleLoggingLevel(consoleLoggingLevel: Int) = apply { this.consoleLoggingLevel = consoleLoggingLevel }
-        fun genderSource(genderSource: Int) = apply { this.genderSource = genderSource }
-        fun saveOriginal(saveOriginal: Boolean) = apply { this.saveOriginal = saveOriginal }
-        fun codeFormerWeight(codeFormerWeight: Float) = apply { this.codeFormerWeight = codeFormerWeight }
-        fun sourceHashCheck(sourceHashCheck: Boolean) = apply { this.sourceHashCheck = sourceHashCheck }
-        fun targetHashCheck(targetHashCheck: Boolean) = apply { this.targetHashCheck = targetHashCheck }
-        fun device(device: String) = apply { this.device = device }
-        fun maskFace(maskFace: Boolean) = apply { this.maskFace = maskFace }
-        fun selectSource(selectSource: Int) = apply { this.selectSource = selectSource }
-        fun faceModel(faceModel: String) = apply { this.faceModel = faceModel }
+
+        fun restoreFirst(restoreFirst: Boolean) = apply {
+            this.restoreFirst = restoreFirst
+        }
+
+        fun upscalerName(upscalerName: String) = apply {
+            this.upscalerName = upscalerName
+        }
+
+        fun upscalerScale(upscalerScale: Int) = apply {
+            this.upscalerScale = upscalerScale
+        }
+
+        fun upscalerVisibility(upscalerVisibility: Float) = apply {
+            this.upscalerVisibility = upscalerVisibility
+        }
+
+        fun swapInSource(swapInSource: Boolean) = apply {
+            this.swapInSource = swapInSource
+        }
+
+        fun swapInGenerated(swapInGenerated: Boolean) = apply {
+            this.swapInGenerated = swapInGenerated
+        }
+
+        fun consoleLoggingLevel(consoleLoggingLevel: Int) = apply {
+            this.consoleLoggingLevel = consoleLoggingLevel
+        }
+
+        fun genderSource(genderSource: Int) = apply {
+            this.genderSource = genderSource
+        }
+
+        fun saveOriginal(saveOriginal: Boolean) = apply {
+            this.saveOriginal = saveOriginal
+        }
+
+        fun codeFormerWeight(codeFormerWeight: Float) = apply {
+            this.codeFormerWeight = codeFormerWeight
+        }
+
+        fun sourceHashCheck(sourceHashCheck: Boolean) = apply {
+            this.sourceHashCheck = sourceHashCheck
+        }
+
+        fun targetHashCheck(targetHashCheck: Boolean) = apply {
+            this.targetHashCheck = targetHashCheck
+        }
+
+        fun device(device: String) = apply {
+            this.device = device
+        }
+
+        fun maskFace(maskFace: Boolean) = apply {
+            this.maskFace = maskFace
+        }
+
+        fun selectSource(selectSource: Int) = apply {
+            this.selectSource = selectSource
+        }
+
+        fun faceModel(faceModel: String) = apply {
+            this.faceModel = faceModel
+        }
 
         fun build() = ReActor(
-            payload = listOf(
+            args = listOf(
                 JsonPrimitive(image),
                 JsonPrimitive(enable),
                 JsonPrimitive(sourceFacesIndex),
@@ -93,8 +176,14 @@ class ReActor private constructor(
 
     companion object {
 
+        fun reActor(init: Builder.() -> Unit): ReActor {
+            val builder = Builder()
+            builder.init()
+            return builder.build()
+        }
+
         fun <T : Process.Builder> T.reActor(reActor: ReActor) = apply {
-            addAlwaysonScript("reactor", ScriptPayload.Array(reActor.payload))
+            addAlwaysonScript("reactor", ScriptPayload.Array(reActor.args))
         }
     }
 }

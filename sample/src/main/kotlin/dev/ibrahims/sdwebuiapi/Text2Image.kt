@@ -1,15 +1,14 @@
 package dev.ibrahims.sdwebuiapi
 
-import dev.ibrahims.sdwebuiapi.process.Process.Companion.text2Image
+import dev.ibrahims.sdwebuiapi.process.Process.Companion.runText2Image
+
 
 suspend fun runText2Image(api: WebUiApi) {
-    val response = api.text2Image()
-        .prompt("spiderman")
-        .samplerName("Euler a")
-        .steps(20)
-        .build()
-        .run()
-
+    val response = api.runText2Image {
+        prompt("spiderman")
+        samplerName("Euler a")
+        steps(20)
+    }
     if (response.isFailure) {
         return println(response.exceptionOrNull())
     }
