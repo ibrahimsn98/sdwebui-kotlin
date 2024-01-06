@@ -1,4 +1,4 @@
-package dev.ibrahims.sdwebuiapi.payload
+package dev.ibrahims.sdwebuiapi.payload.script
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
@@ -11,16 +11,14 @@ data class ScriptPayload(
     @SerialName("args") val args: List<ScriptArgs>,
 )
 
-@Serializable(with = SectionSerializer::class)
+@Serializable(with = ScriptArgsSerializer::class)
 sealed interface ScriptArgs
 
-object SectionSerializer :
-    JsonContentPolymorphicSerializer<ScriptArgs>(
-        ScriptArgs::class
-    ) {
+object ScriptArgsSerializer : JsonContentPolymorphicSerializer<ScriptArgs>(ScriptArgs::class) {
+
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<ScriptArgs> {
         return when (element::class) {
-            ControlNetUnitPayload::class -> ControlNetUnitPayload.serializer()
+            ControlNetScriptArgs::class -> ControlNetScriptArgs.serializer()
             else -> throw Exception("ERROR: No Serializer found. Serialization failed.")
         }
     }

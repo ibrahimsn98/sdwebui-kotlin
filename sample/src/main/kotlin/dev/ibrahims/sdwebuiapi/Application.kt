@@ -1,5 +1,7 @@
 package dev.ibrahims.sdwebuiapi
 
+import dev.ibrahims.sdwebuiapi.extension.ADetailer
+import dev.ibrahims.sdwebuiapi.extension.ADetailer.Companion.aDetailer
 import dev.ibrahims.sdwebuiapi.extension.ControlNet
 import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNet
 import dev.ibrahims.sdwebuiapi.process.Process.Companion.image2Image
@@ -17,7 +19,7 @@ fun main() {
         .build()
 
     runBlocking {
-        runImage2ImageControlNet(api)
+        runImage2ImageControlNetADetailer(api)
     }
 }
 
@@ -78,6 +80,40 @@ private suspend fun runImage2ImageControlNet(api: WebUiApi) {
         .controlNet(controlNet)
         .build()
         .run()
+
+    response.getOrNull()?.images.orEmpty().forEachIndexed { i, base64 ->
+        saveImage(base64, i.toString())
+    }
+}
+
+private suspend fun runImage2ImageControlNetADetailer(api: WebUiApi) {
+    val input = File("input/input-1.jpg").readBytes()
+    val base64 = Base64.getEncoder().encodeToString(input)
+
+    val unit = ControlNet.Unit.Builder()
+        .inputImage(base64)
+        .module("canny")
+        .model("control_canny-fp16 [e3fe7712]")
+        .build()
+
+    val controlNet = ControlNet.Builder()
+        .addUnit(unit)
+        .build()
+
+    val aDetailer = ADetailer.Builder()
+        .model("face_yolov8n.pt")
+        .build()
+
+    val response = api.text2Image()
+        .prompt("spiderman")
+        .samplerName("Euler a")
+        .steps(20)
+        .controlNet(controlNet)
+        .aDetailer(aDetailer)
+        .build()
+        .run()
+
+    println(response.exceptionOrNull())
 
     response.getOrNull()?.images.orEmpty().forEachIndexed { i, base64 ->
         saveImage(base64, i.toString())

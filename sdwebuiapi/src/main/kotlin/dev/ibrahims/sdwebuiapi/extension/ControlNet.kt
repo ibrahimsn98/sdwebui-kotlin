@@ -1,15 +1,15 @@
 package dev.ibrahims.sdwebuiapi.extension
 
 import dev.ibrahims.sdwebuiapi.process.Text2Image
-import dev.ibrahims.sdwebuiapi.payload.ControlNetUnitPayload
-import dev.ibrahims.sdwebuiapi.payload.ScriptPayload
+import dev.ibrahims.sdwebuiapi.payload.script.ControlNetScriptArgs
+import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
 
 class ControlNet private constructor(
     internal val units: List<Unit>,
 ) : Extension {
 
     class Unit private constructor(
-        internal val payload: ControlNetUnitPayload,
+        internal val payload: ControlNetScriptArgs,
     ) {
 
         class Builder {
@@ -47,7 +47,7 @@ class ControlNet private constructor(
             fun pixelPerfect(pixelPerfect: Boolean) = apply { this.pixelPerfect = pixelPerfect }
 
             fun build() = Unit(
-                payload = ControlNetUnitPayload(
+                payload = ControlNetScriptArgs(
                     inputImage = inputImage,
                     module = module,
                     model = model,

@@ -1,10 +1,10 @@
-package dev.ibrahims.sdwebuiapi.payload
+package dev.ibrahims.sdwebuiapi.payload.script
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ControlNetUnitPayload(
+data class ControlNetScriptArgs(
     @SerialName("input_image") val inputImage: String?,
     @SerialName("module") val module: String,
     @SerialName("model") val model: String,

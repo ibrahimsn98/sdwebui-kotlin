@@ -1,7 +1,7 @@
 package dev.ibrahims.sdwebuiapi.process
 
 import dev.ibrahims.sdwebuiapi.payload.Image2ImagePayload
-import dev.ibrahims.sdwebuiapi.payload.ScriptPayload
+import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
 import dev.ibrahims.sdwebuiapi.response.ProcessResponse
 import dev.ibrahims.sdwebuiapi.service.StableDiffusionService
 

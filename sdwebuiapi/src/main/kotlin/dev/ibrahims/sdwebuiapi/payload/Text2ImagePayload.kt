@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebuiapi.payload
 
+import dev.ibrahims.sdwebuiapi.payload.script.ScriptPayload
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
