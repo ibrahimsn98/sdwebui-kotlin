@@ -1,6 +1,7 @@
 package dev.ibrahims.sdwebuiapi
 
 import dev.ibrahims.sdwebuiapi.extension.ControlNet
+import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNet
 import dev.ibrahims.sdwebuiapi.process.Process.Companion.image2Image
 import dev.ibrahims.sdwebuiapi.process.Process.Companion.text2Image
 import kotlinx.coroutines.runBlocking
@@ -16,7 +17,7 @@ fun main() {
         .build()
 
     runBlocking {
-        runImage2Image(api)
+        runImage2ImageControlNet(api)
     }
 }
 
@@ -31,7 +32,6 @@ suspend fun runText2Image(api: WebUiApi) {
         .prompt("spiderman")
         .samplerName("Euler a")
         .steps(20)
-        //.controlNet(controlNet)
         .build()
         .run()
 
@@ -58,14 +58,30 @@ suspend fun runImage2Image(api: WebUiApi) {
 }
 
 private suspend fun runImage2ImageControlNet(api: WebUiApi) {
+    val input = File("input/input-1.jpg").readBytes()
+    val base64 = Base64.getEncoder().encodeToString(input)
+
     val unit = ControlNet.Unit.Builder()
+        .inputImage(base64)
         .module("canny")
-        .model("control_sd15_canny [fef5e48e]")
+        .model("control_canny-fp16 [e3fe7712]")
         .build()
 
     val controlNet = ControlNet.Builder()
         .addUnit(unit)
         .build()
+
+    val response = api.text2Image()
+        .prompt("spiderman")
+        .samplerName("Euler a")
+        .steps(20)
+        .controlNet(controlNet)
+        .build()
+        .run()
+
+    response.getOrNull()?.images.orEmpty().forEachIndexed { i, base64 ->
+        saveImage(base64, i.toString())
+    }
 }
 
 private fun saveImage(base64: String, id: String) {
