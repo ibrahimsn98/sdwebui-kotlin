@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebuiapi
 
+import dev.ibrahims.sdwebuiapi.response.ErrorResponse
 import dev.ibrahims.sdwebuiapi.service.StableDiffusionService
 import dev.ibrahims.sdwebuiapi.service.StableDiffusionServiceImpl
 import io.ktor.client.*
@@ -7,6 +8,8 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 class WebUiApi private constructor(
@@ -14,11 +17,13 @@ class WebUiApi private constructor(
     private val port: Int,
 ) {
 
+    @OptIn(ExperimentalSerializationApi::class)
     private val json by lazy {
         Json {
             isLenient = false
             ignoreUnknownKeys = true
             encodeDefaults = true
+            explicitNulls = false
         }
     }
 
@@ -36,6 +41,9 @@ class WebUiApi private constructor(
     val stableDiffusion: StableDiffusionService by lazy {
         StableDiffusionServiceImpl("http://$host:$port", client)
     }
+
+    @Serializable
+    data class Error(val response: ErrorResponse) : Throwable(response.errors)
 
     class Builder {
 

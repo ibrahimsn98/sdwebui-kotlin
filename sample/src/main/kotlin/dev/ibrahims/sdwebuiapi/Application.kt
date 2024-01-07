@@ -15,7 +15,9 @@ fun main() {
         .build()
 
     runBlocking {
-        runReActor(sdWebUiApi)
+        val s4 = sdWebUiApi.stableDiffusion.getScriptInfo()
+        println(s4.exceptionOrNull())
+        println(s4.getOrNull())
     }
 }
 

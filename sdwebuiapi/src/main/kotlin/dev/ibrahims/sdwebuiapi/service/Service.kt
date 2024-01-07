@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebuiapi.service
 
+import dev.ibrahims.sdwebuiapi.WebUiApi
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -14,20 +15,30 @@ abstract class Service {
     protected suspend inline fun <reified T> getRequest(
         path: String,
     ): Result<T> = runCatching {
-        client.get {
+        val response = client.get {
             url("$baseUrl/$path")
             contentType(ContentType.Application.Json)
-        }.body()
+        }
+        if (response.status.isSuccess()) {
+            response.body()
+        } else {
+            throw Throwable(response.body<String>())
+        }
     }
 
     protected suspend inline fun <reified T> postRequest(
         path: String,
         body: Any? = null,
     ): Result<T> = runCatching {
-        client.post {
+        val response = client.post {
             url("$baseUrl/$path")
             contentType(ContentType.Application.Json)
             if (body != null) setBody(body)
-        }.body()
+        }
+        if (response.status.isSuccess()) {
+            response.body()
+        } else {
+            throw WebUiApi.Error(response.body())
+        }
     }
 }
