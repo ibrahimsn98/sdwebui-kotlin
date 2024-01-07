@@ -2,6 +2,8 @@ package dev.ibrahims.sdwebuiapi
 
 import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNet
 import dev.ibrahims.sdwebuiapi.extension.ControlNet.Companion.controlNetUnit
+import dev.ibrahims.sdwebuiapi.payload.Text2ImagePayload
+import dev.ibrahims.sdwebuiapi.payload.script.ControlNetScriptArgs
 import dev.ibrahims.sdwebuiapi.process.Process.Companion.runText2Image
 
 suspend fun runControlNet(api: WebUiApi) {
@@ -15,17 +17,16 @@ suspend fun runControlNet(api: WebUiApi) {
         addUnit(unit)
     }
 
-    val response = api.runText2Image {
+    val result = api.runText2Image {
         prompt("spiderman")
         samplerName("Euler a")
         steps(20)
         controlNet(controlNet)
-        build()
     }
-    if (response.isFailure) {
-        return println(response.exceptionOrNull())
+    if (result.isFailure) {
+        return println(result.exceptionOrNull())
     }
-    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+    result.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
         saveImage(imageBase64)
     }
 }

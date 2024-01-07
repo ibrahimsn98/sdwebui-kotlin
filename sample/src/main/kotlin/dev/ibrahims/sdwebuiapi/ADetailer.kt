@@ -8,16 +8,16 @@ suspend fun runADetailer(api: WebUiApi) {
         model("face_yolov8n.pt")
     }
 
-    val response = api.runText2Image {
+    val result = api.runText2Image {
         prompt("spiderman")
         samplerName("Euler a")
         steps(20)
         aDetailer(aDetailer)
     }
-    if (response.isFailure) {
-        return println(response.exceptionOrNull())
+    if (result.isFailure) {
+        return println(result.exceptionOrNull())
     }
-    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+    result.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
         saveImage(imageBase64)
     }
 }

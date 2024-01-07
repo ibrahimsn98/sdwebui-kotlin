@@ -9,16 +9,16 @@ suspend fun runReActor(api: WebUiApi) {
         upscalerName("None")
     }
 
-    val response = api.runText2Image {
+    val result = api.runText2Image {
         prompt("beautiful princess, 1girl, princess clothes, portrait, masterpiece, high quality")
         samplerName("DPM++ 2M Karras")
         steps(25)
         reActor(reActor)
     }
-    if (response.isFailure) {
-        return println(response.exceptionOrNull())
+    if (result.isFailure) {
+        return println(result.exceptionOrNull())
     }
-    response.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+    result.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
         saveImage(imageBase64)
     }
 }

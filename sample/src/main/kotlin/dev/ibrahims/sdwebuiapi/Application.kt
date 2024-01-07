@@ -11,8 +11,9 @@ fun main() {
         .build()
 
     runBlocking {
-        sdWebUiApi.setModel("dreamshaper_8.safetensors [879db523c3]")
-        runText2Image(sdWebUiApi)
+        println(sdWebUiApi.core.getQueue())
+        //sdWebUiApi.setModel("dreamshaper_8.safetensors [879db523c3]")
+        //runText2Image(sdWebUiApi)
     }
 }
 
