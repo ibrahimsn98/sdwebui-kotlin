@@ -1,6 +1,8 @@
 package dev.ibrahims.sdwebuiapi
 
 import dev.ibrahims.sdwebuiapi.response.ErrorResponse
+import dev.ibrahims.sdwebuiapi.service.ControlNetService
+import dev.ibrahims.sdwebuiapi.service.ControlNetServiceImpl
 import dev.ibrahims.sdwebuiapi.service.StableDiffusionService
 import dev.ibrahims.sdwebuiapi.service.StableDiffusionServiceImpl
 import io.ktor.client.*
@@ -21,6 +23,7 @@ class WebUiApi private constructor(
     private val json by lazy {
         Json {
             isLenient = false
+            prettyPrint = true
             ignoreUnknownKeys = true
             encodeDefaults = true
             explicitNulls = false
@@ -40,6 +43,10 @@ class WebUiApi private constructor(
 
     val stableDiffusion: StableDiffusionService by lazy {
         StableDiffusionServiceImpl("http://$host:$port", client)
+    }
+
+    val controlNet: ControlNetService by lazy {
+        ControlNetServiceImpl("http://$host:$port", client)
     }
 
     @Serializable
