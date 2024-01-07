@@ -1,9 +1,9 @@
 package dev.ibrahims.sdwebui
 
-import dev.ibrahims.sdwebui.process.Process.Companion.runImage2image
+import dev.ibrahims.sdwebui.process.Process.Companion.runImage2Image
 
 suspend fun runImage2Image(api: SdWebUi) {
-    val result = api.runImage2image {
+    val result = api.runImage2Image {
         initImages(listOf(loadImage("input-1.png")))
         prompt("cute dog, high quality, dog clothes")
         negativePrompt("worst quality")

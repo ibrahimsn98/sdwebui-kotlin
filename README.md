@@ -61,7 +61,7 @@ val result = api.stableDiffusion.text2Image(payload)
 You can use Kotlin DSL builder with default parameter values or payload model directly with the stable diffusion service to create a image2image process.
 
 ```kotlin
-val result = api.runImage2image {
+val result = api.runImage2Image {
     initImages(listOf(loadImage("input-1.jpg")))
     prompt("cute dog, high quality, dog clothes")
     negativePrompt("worst quality")

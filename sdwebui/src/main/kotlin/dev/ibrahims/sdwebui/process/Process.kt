@@ -19,7 +19,7 @@ interface Process {
             return builder.build().run()
         }
 
-        suspend fun SdWebUi.runImage2image(init: Image2Image.Builder.() -> Unit): Result<ProcessResponse> {
+        suspend fun SdWebUi.runImage2Image(init: Image2Image.Builder.() -> Unit): Result<ProcessResponse> {
             val builder = Image2Image.Builder(stableDiffusion)
             builder.init()
             return builder.build().run()
