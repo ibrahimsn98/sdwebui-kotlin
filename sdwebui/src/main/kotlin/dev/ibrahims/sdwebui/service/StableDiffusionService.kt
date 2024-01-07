@@ -1,14 +1,17 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
 import dev.ibrahims.sdwebui.payload.Text2ImagePayload
 import dev.ibrahims.sdwebui.response.*
 
 interface StableDiffusionService {
 
-    suspend fun text2Image(payload: Text2ImagePayload): Result<ProcessResponse>
+    suspend fun text2Image(payload: Text2ImagePayload): Result<GenerateProcessResponse>
 
-    suspend fun image2Image(payload: Image2ImagePayload): Result<ProcessResponse>
+    suspend fun image2Image(payload: Image2ImagePayload): Result<GenerateProcessResponse>
+
+    suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraProcessResponse>
 
     suspend fun getModels(): Result<List<ModelResponse>>
 

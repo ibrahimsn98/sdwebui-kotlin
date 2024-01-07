@@ -22,7 +22,7 @@ abstract class Service {
         if (response.status.isSuccess()) {
             response.body()
         } else {
-            throw Throwable(response.body<String>())
+            throw SdWebUi.Error(response.body())
         }
     }
 

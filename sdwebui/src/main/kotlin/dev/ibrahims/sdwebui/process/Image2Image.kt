@@ -2,7 +2,7 @@ package dev.ibrahims.sdwebui.process
 
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
 import dev.ibrahims.sdwebui.payload.script.ScriptPayload
-import dev.ibrahims.sdwebui.response.ProcessResponse
+import dev.ibrahims.sdwebui.response.GenerateProcessResponse
 import dev.ibrahims.sdwebui.service.StableDiffusionService
 
 class Image2Image private constructor(
@@ -10,7 +10,7 @@ class Image2Image private constructor(
     private val payload: Image2ImagePayload,
 ) : Process {
 
-    suspend fun run(): Result<ProcessResponse> {
+    suspend fun run(): Result<GenerateProcessResponse> {
         return stableDiffusionService.image2Image(payload)
     }
 

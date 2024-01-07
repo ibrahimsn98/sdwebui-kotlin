@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
 import dev.ibrahims.sdwebui.payload.Text2ImagePayload
 import dev.ibrahims.sdwebui.response.*
@@ -10,12 +11,16 @@ class StableDiffusionServiceImpl(
     override val client: HttpClient,
 ) : Service(), StableDiffusionService {
 
-    override suspend fun text2Image(payload: Text2ImagePayload): Result<ProcessResponse> {
+    override suspend fun text2Image(payload: Text2ImagePayload): Result<GenerateProcessResponse> {
         return postRequest("sdapi/v1/txt2img", payload)
     }
 
-    override suspend fun image2Image(payload: Image2ImagePayload): Result<ProcessResponse> {
+    override suspend fun image2Image(payload: Image2ImagePayload): Result<GenerateProcessResponse> {
         return postRequest("sdapi/v1/img2img", payload)
+    }
+
+    override suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraProcessResponse> {
+        return postRequest("sdapi/v1/extra-single-image", payload)
     }
 
     override suspend fun getModels(): Result<List<ModelResponse>> {
