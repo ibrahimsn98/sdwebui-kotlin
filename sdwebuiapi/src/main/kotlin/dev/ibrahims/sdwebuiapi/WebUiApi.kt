@@ -38,6 +38,10 @@ class WebUiApi private constructor(
         }
     }
 
+    val core: CoreService by lazy {
+        CoreServiceImpl("http://$host:$port", client)
+    }
+
     val stableDiffusion: StableDiffusionService by lazy {
         StableDiffusionServiceImpl("http://$host:$port", client)
     }
