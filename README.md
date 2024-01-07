@@ -9,7 +9,7 @@ Currently supports text2image, image2image processes, ControlNet, ADetailer, ReA
 You can create api client instance with custom host, port and protocol. Note that, API support have to be enabled from webui to use this client. You  can check how to enable API from [here](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API).
 
 ```kotlin
-val sdWebUiApi = WebUiApi.Builder()
+val sdWebUiApi = SdWebUi.Builder()
     .host("127.0.0.1")
     .port(7860)
     .useHttps(false)
@@ -281,6 +281,22 @@ val images = requireNotNull(result.getOrNull()).images
   <td width="33%" style="text-align: center"><img src="art/art-11.png"></td>
  </tr>
 </table>
+
+## Installation
+
+```kotlin
+// project build.gradle
+repositories {
+ ....
+ maven { url 'https://jitpack.io' }
+}
+
+// module build.gradle
+dependencies { 
+    ...
+    implementation("com.github.ibrahimsn98:sdwebui-kotlin:1.0.0")
+}
+```
 
 ## Roadmap
 

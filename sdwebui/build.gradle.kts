@@ -29,3 +29,18 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "dev.ibrahims"
+            artifactId = "sdwebui"
+            from(components["java"])
+        }
+    }
+}
