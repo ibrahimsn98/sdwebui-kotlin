@@ -78,6 +78,51 @@ val images = requireNotNull(result.getOrNull()).images
 
 ![art1](art/art-2.png)
 
+### Extra Single Image
+
+You can use Kotlin DSL builder with default parameter values or payload model directly with the stable diffusion service to create a extraSingleImage process.
+
+```kotlin
+val result = api.runExtraSingleImage {
+    image(loadImage("input-3.png"))
+    upscaler1("R-ESRGAN 4x+")
+    upscalingResize(2)
+}
+if (result.isFailure) {
+    return println(result.exceptionOrNull())
+}
+saveImage(requireNotNull(result.getOrNull()).image)
+```
+
+### Extra Batch Images
+
+You can use Kotlin DSL builder with default parameter values or payload model directly with the stable diffusion service to create a extraBatchImages process.
+
+```kotlin
+val images = listOf(
+    ExtraBatchImages.Image(
+        data = loadImage("input-1.png"),
+        name = "input-1.png",
+    ),
+    ExtraBatchImages.Image(
+        data = loadImage("input-3.png"),
+        name = "input-3.png",
+    )
+)
+
+val result = api.runExtraBatchImages {
+    images(images)
+    upscaler1("R-ESRGAN 4x+")
+    upscalingResize(2)
+}
+if (result.isFailure) {
+    return println(result.exceptionOrNull())
+}
+result.getOrNull()?.images.orEmpty().forEach { imageBase64 ->
+    saveImage(imageBase64)
+}
+```
+
 ## Configuration and Utility APIs
 
 You can use configuration API methods over client services directly. Response of the most of them are wrapped with a data class,
@@ -303,7 +348,7 @@ dependencies {
 
 - [ ] Authentication support.
 - [ ] Roop extension support.
-- [ ] Image upscaling support.
+- [x] Image upscaling support.
 - [ ] Web UI scripts support.
 - [ ] RemBG extension support.
 - [ ] SegmentAnything extension support.

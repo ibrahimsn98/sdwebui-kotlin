@@ -1,18 +1,23 @@
 package dev.ibrahims.sdwebui.process
 
-import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
+import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
 import dev.ibrahims.sdwebui.payload.script.ScriptPayload
-import dev.ibrahims.sdwebui.response.ExtraSingleImageResponse
+import dev.ibrahims.sdwebui.response.ExtraBatchImagesResponse
 import dev.ibrahims.sdwebui.service.StableDiffusionService
 
-class ExtraSingleImage private constructor(
+class ExtraBatchImages private constructor(
     private val stableDiffusionService: StableDiffusionService,
-    private val payload: ExtraSingleImagePayload,
+    private val payload: ExtraBatchImagesPayload,
 ) : Process {
 
-    suspend fun run(): Result<ExtraSingleImageResponse> {
-        return stableDiffusionService.extraSingleImage(payload)
+    suspend fun run(): Result<ExtraBatchImagesResponse> {
+        return stableDiffusionService.extraBatchImages(payload)
     }
+
+    data class Image(
+        val data: String,
+        val name: String,
+    )
 
     class Builder internal constructor(
         private val stableDiffusionService: StableDiffusionService,
@@ -31,7 +36,7 @@ class ExtraSingleImage private constructor(
         private var upscaler2: String = "None"
         private var extrasUpscaler2Visibility: Int = 0
         private var upscaleFirst: Boolean = false
-        private var image: String = ""
+        private var images: List<Image> = emptyList()
 
         fun resizeMode(resizeMode: Int) = apply {
             this.resizeMode = resizeMode
@@ -85,17 +90,17 @@ class ExtraSingleImage private constructor(
             this.upscaleFirst = upscaleFirst
         }
 
-        fun image(image: String) = apply {
-            this.image = image
+        fun images(images: List<Image>) = apply {
+            this.images = images
         }
 
         override fun addAlwaysonScript(key: String, payload: ScriptPayload) {
             // Do nothing
         }
 
-        fun build(): ExtraSingleImage = ExtraSingleImage(
+        fun build(): ExtraBatchImages = ExtraBatchImages(
             stableDiffusionService = stableDiffusionService,
-            payload = ExtraSingleImagePayload(
+            payload = ExtraBatchImagesPayload(
                 resizeMode = resizeMode,
                 showExtrasResults = showExtrasResults,
                 gfpganVisibility = gfpganVisibility,
@@ -109,7 +114,12 @@ class ExtraSingleImage private constructor(
                 upscaler2 = upscaler2,
                 extrasUpscaler2Visibility = extrasUpscaler2Visibility,
                 upscaleFirst = upscaleFirst,
-                image = image,
+                images = images.map { image ->
+                    ExtraBatchImagesPayload.Image(
+                        data = image.data,
+                        name = image.name,
+                    )
+                },
             )
         )
     }

@@ -2,7 +2,8 @@ package dev.ibrahims.sdwebui.process
 
 import dev.ibrahims.sdwebui.SdWebUi
 import dev.ibrahims.sdwebui.payload.script.ScriptPayload
-import dev.ibrahims.sdwebui.response.ExtraProcessResponse
+import dev.ibrahims.sdwebui.response.ExtraBatchImagesResponse
+import dev.ibrahims.sdwebui.response.ExtraSingleImageResponse
 import dev.ibrahims.sdwebui.response.GenerateProcessResponse
 
 interface Process {
@@ -32,8 +33,16 @@ interface Process {
 
         suspend fun SdWebUi.runExtraSingleImage(
             init: ExtraSingleImage.Builder.() -> Unit,
-        ): Result<ExtraProcessResponse> {
+        ): Result<ExtraSingleImageResponse> {
             val builder = ExtraSingleImage.Builder(stableDiffusion)
+            builder.init()
+            return builder.build().run()
+        }
+
+        suspend fun SdWebUi.runExtraBatchImages(
+            init: ExtraBatchImages.Builder.() -> Unit,
+        ): Result<ExtraBatchImagesResponse> {
+            val builder = ExtraBatchImages.Builder(stableDiffusion)
             builder.init()
             return builder.build().run()
         }
@@ -43,5 +52,7 @@ interface Process {
         fun SdWebUi.image2Image() = Image2Image.Builder(stableDiffusion)
 
         fun SdWebUi.extraSingleImage() = ExtraSingleImage.Builder(stableDiffusion)
+
+        fun SdWebUi.extraBatchImages() = ExtraBatchImages.Builder(stableDiffusion)
     }
 }

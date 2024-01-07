@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
 import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
 import dev.ibrahims.sdwebui.payload.Text2ImagePayload
@@ -19,8 +20,12 @@ class StableDiffusionServiceImpl(
         return postRequest("sdapi/v1/img2img", payload)
     }
 
-    override suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraProcessResponse> {
+    override suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraSingleImageResponse> {
         return postRequest("sdapi/v1/extra-single-image", payload)
+    }
+
+    override suspend fun extraBatchImages(payload: ExtraBatchImagesPayload): Result<ExtraBatchImagesResponse> {
+        return postRequest("sdapi/v1/extra-batch-images", payload)
     }
 
     override suspend fun getModels(): Result<List<ModelResponse>> {

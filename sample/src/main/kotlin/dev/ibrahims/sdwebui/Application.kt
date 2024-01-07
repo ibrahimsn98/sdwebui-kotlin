@@ -6,19 +6,20 @@ import java.util.*
 
 fun main() {
     val sdWebUiApi = SdWebUi.Builder()
-        //.host("192.168.1.62")
+        .host("192.168.1.62")
         .port(7860)
         .build()
 
     runBlocking {
         sdWebUiApi.setModel("dreamshaper_8.safetensors [879db523c3]")
 
-        //runText2Image(sdWebUiApi)
+        runText2Image(sdWebUiApi)
         //runImage2Image(sdWebUiApi)
         //runControlNet(sdWebUiApi)
         //runADetailer(sdWebUiApi)
         //runReActor(sdWebUiApi)
-        runExtraSingleImage(sdWebUiApi)
+        //runExtraSingleImage(sdWebUiApi)
+        //runExtraBatchImages(sdWebUiApi)
     }
 }
 

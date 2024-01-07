@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExtraProcessResponse(
+data class ExtraSingleImageResponse(
     @SerialName("html_info") val htmlInfo: String,
     @SerialName("image") val image: String,
 )

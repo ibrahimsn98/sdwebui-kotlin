@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
 import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
 import dev.ibrahims.sdwebui.payload.Text2ImagePayload
@@ -11,7 +12,9 @@ interface StableDiffusionService {
 
     suspend fun image2Image(payload: Image2ImagePayload): Result<GenerateProcessResponse>
 
-    suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraProcessResponse>
+    suspend fun extraSingleImage(payload: ExtraSingleImagePayload): Result<ExtraSingleImageResponse>
+
+    suspend fun extraBatchImages(payload: ExtraBatchImagesPayload): Result<ExtraBatchImagesResponse>
 
     suspend fun getModels(): Result<List<ModelResponse>>
 
