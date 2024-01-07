@@ -43,43 +43,130 @@ class ADetailer private constructor(
         private var controlNetGuidanceStart: Float = 0.0f
         private var controlNetGuidanceEnd: Float = 1.0f
 
-        fun model(model: String) = apply { this.model = model }
-        fun prompt(prompt: String) = apply { this.prompt = prompt }
-        fun negativePrompt(negativePrompt: String) = apply { this.negativePrompt = negativePrompt }
-        fun confidence(confidence: Float) = apply { this.confidence = confidence }
-        fun maskKLargest(maskKLargest: Float) = apply { this.maskKLargest = maskKLargest }
-        fun maskMinRatio(maskMinRatio: Float) = apply { this.maskMinRatio = maskMinRatio }
-        fun maskMaxRatio(maskMaxRatio: Float) = apply { this.maskMaxRatio = maskMaxRatio }
-        fun dilateErode(dilateErode: Int) = apply { this.dilateErode = dilateErode }
-        fun xOffset(xOffset: Int) = apply { this.xOffset = xOffset }
-        fun yOffset(yOffset: Int) = apply { this.yOffset = yOffset }
-        fun maskMergeInvert(maskMergeInvert: String) = apply { this.maskMergeInvert = maskMergeInvert }
-        fun maskBlur(maskBlur: Int) = apply { this.maskBlur = maskBlur }
-        fun denoisingStrength(denoisingStrength: Float) = apply { this.denoisingStrength = denoisingStrength }
-        fun inpaintOnlyMasked(inpaintOnlyMasked: Boolean) = apply { this.inpaintOnlyMasked = inpaintOnlyMasked }
+        fun model(model: String) = apply {
+            this.model = model
+        }
+
+        fun prompt(prompt: String) = apply {
+            this.prompt = prompt
+        }
+
+        fun negativePrompt(negativePrompt: String) = apply {
+            this.negativePrompt = negativePrompt
+        }
+
+        fun confidence(confidence: Float) = apply {
+            this.confidence = confidence
+        }
+
+        fun maskKLargest(maskKLargest: Float) = apply {
+            this.maskKLargest = maskKLargest
+        }
+
+        fun maskMinRatio(maskMinRatio: Float) = apply {
+            this.maskMinRatio = maskMinRatio
+        }
+
+        fun maskMaxRatio(maskMaxRatio: Float) = apply {
+            this.maskMaxRatio = maskMaxRatio
+        }
+
+        fun dilateErode(dilateErode: Int) = apply {
+            this.dilateErode = dilateErode
+        }
+
+        fun xOffset(xOffset: Int) = apply {
+            this.xOffset = xOffset
+        }
+
+        fun yOffset(yOffset: Int) = apply {
+            this.yOffset = yOffset
+        }
+
+        fun maskMergeInvert(maskMergeInvert: String) = apply {
+            this.maskMergeInvert = maskMergeInvert
+        }
+
+        fun maskBlur(maskBlur: Int) = apply {
+            this.maskBlur = maskBlur
+        }
+
+        fun denoisingStrength(denoisingStrength: Float) = apply {
+            this.denoisingStrength = denoisingStrength
+        }
+
+        fun inpaintOnlyMasked(inpaintOnlyMasked: Boolean) = apply {
+            this.inpaintOnlyMasked = inpaintOnlyMasked
+        }
+
         fun inpaintOnlyMaskedPadding(inpaintOnlyMaskedPadding: Int) = apply {
             this.inpaintOnlyMaskedPadding = inpaintOnlyMaskedPadding
         }
+
         fun useInpaintWidthHeight(useInpaintWidthHeight: Boolean) = apply {
             this.useInpaintWidthHeight = useInpaintWidthHeight
         }
-        fun inpaintWidth(inpaintWidth: Int) = apply { this.inpaintWidth = inpaintWidth }
-        fun inpaintHeight(inpaintHeight: Int) = apply { this.inpaintHeight = inpaintHeight }
-        fun useSteps(useSteps: Boolean) = apply { this.useSteps = useSteps }
-        fun steps(steps: Int) = apply { this.steps = steps }
-        fun useCfgScale(useCfgScale: Boolean) = apply { this.useCfgScale = useCfgScale }
-        fun cfgScale(cfgScale: Float) = apply { this.cfgScale = cfgScale }
-        fun useNoiseMultiplier(useNoiseMultiplier: Boolean) = apply { this.useNoiseMultiplier = useNoiseMultiplier }
-        fun noiseMultiplier(noiseMultiplier: Float) = apply { this.noiseMultiplier = noiseMultiplier }
-        fun useClipSkip(useClipSkip: Boolean) = apply { this.useClipSkip = useClipSkip }
-        fun clipSkip(clipSkip: Int) = apply { this.clipSkip = clipSkip }
-        fun restoreFace(restoreFace: Boolean) = apply { this.restoreFace = restoreFace }
-        fun controlNetModel(controlNetModel: String) = apply { this.controlNetModel = controlNetModel }
-        fun controlNetModule(controlNetModule: String) = apply { this.controlNetModule = controlNetModule }
-        fun controlNetWeight(controlNetWeight: Float) = apply { this.controlNetWeight = controlNetWeight }
+
+        fun inpaintWidth(inpaintWidth: Int) = apply {
+            this.inpaintWidth = inpaintWidth
+        }
+
+        fun inpaintHeight(inpaintHeight: Int) = apply {
+            this.inpaintHeight = inpaintHeight
+        }
+
+        fun useSteps(useSteps: Boolean) = apply {
+            this.useSteps = useSteps
+        }
+
+        fun steps(steps: Int) = apply {
+            this.steps = steps
+        }
+
+        fun useCfgScale(useCfgScale: Boolean) = apply {
+            this.useCfgScale = useCfgScale
+        }
+
+        fun cfgScale(cfgScale: Float) = apply {
+            this.cfgScale = cfgScale
+        }
+
+        fun useNoiseMultiplier(useNoiseMultiplier: Boolean) = apply {
+            this.useNoiseMultiplier = useNoiseMultiplier
+        }
+
+        fun noiseMultiplier(noiseMultiplier: Float) = apply {
+            this.noiseMultiplier = noiseMultiplier
+        }
+
+        fun useClipSkip(useClipSkip: Boolean) = apply {
+            this.useClipSkip = useClipSkip
+        }
+
+        fun clipSkip(clipSkip: Int) = apply {
+            this.clipSkip = clipSkip
+        }
+
+        fun restoreFace(restoreFace: Boolean) = apply {
+            this.restoreFace = restoreFace
+        }
+
+        fun controlNetModel(controlNetModel: String) = apply {
+            this.controlNetModel = controlNetModel
+        }
+
+        fun controlNetModule(controlNetModule: String) = apply {
+            this.controlNetModule = controlNetModule
+        }
+
+        fun controlNetWeight(controlNetWeight: Float) = apply {
+            this.controlNetWeight = controlNetWeight
+        }
+
         fun controlNetGuidanceStart(controlNetGuidanceStart: Float) = apply {
             this.controlNetGuidanceStart = controlNetGuidanceStart
         }
+
         fun controlNetGuidanceEnd(controlNetGuidanceEnd: Float) = apply {
             this.controlNetGuidanceEnd = controlNetGuidanceEnd
         }

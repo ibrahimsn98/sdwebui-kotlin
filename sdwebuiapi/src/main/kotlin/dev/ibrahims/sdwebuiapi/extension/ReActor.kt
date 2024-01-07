@@ -35,39 +35,22 @@ class ReActor private constructor(
         private var selectSource: Int = 0
         private var faceModel: String? = null
 
-        /**
-         * Input image
-         */
         fun image(image: String?) = apply {
             this.image = image
         }
 
-        /**
-         * Set ReActor enabled
-         */
         fun enable(enable: Boolean) = apply {
             this.enable = enable
         }
 
-        /**
-         * Face numbers from swap-source image
-         * Example: "0,1"
-         */
         fun sourceFacesIndex(sourceFacesIndex: String) = apply {
             this.sourceFacesIndex = sourceFacesIndex
         }
 
-        /**
-         * Face numbers for result image
-         * Example: "0,1"
-         */
         fun facesIndex(facesIndex: String) = apply {
             this.facesIndex = facesIndex
         }
 
-        /**
-         * ReActor model
-         */
         fun model(model: String) = apply {
             this.model = model
         }

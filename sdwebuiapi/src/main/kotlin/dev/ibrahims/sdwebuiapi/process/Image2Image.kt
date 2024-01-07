@@ -62,55 +62,179 @@ class Image2Image private constructor(
         private var saveImages: Boolean = false
         private var alwaysonScripts: MutableMap<String, ScriptPayload> = mutableMapOf()
 
-        fun initImages(initImages: List<String>) = apply { this.initImages = initImages }
-        fun prompt(prompt: String) = apply { this.prompt = prompt }
-        fun negativePrompt(negativePrompt: String) = apply { this.negativePrompt = negativePrompt }
-        fun resizeMode(resizeMode: Int) = apply { this.resizeMode = resizeMode }
-        fun denoisingStrength(denoisingStrength: Float) = apply { this.denoisingStrength = denoisingStrength }
-        fun mask(mask: String?) = apply { this.mask = mask }
-        fun maskBlur(maskBlur: Int) = apply { this.maskBlur = maskBlur }
-        fun inpaintingFill(inpaintingFill: Int) = apply { this.inpaintingFill = inpaintingFill }
-        fun inpaintFullRes(inpaintFullRes: Boolean) = apply { this.inpaintFullRes = inpaintFullRes }
-        fun inpaintFullResPadding(inpaintFullResPadding: Int) = apply { this.inpaintFullResPadding = inpaintFullResPadding }
-        fun inpaintingMaskInvert(inpaintingMaskInvert: Int) = apply { this.inpaintingMaskInvert = inpaintingMaskInvert }
-        fun initialNoiseMultiplier(initialNoiseMultiplier: Int) = apply { this.initialNoiseMultiplier = initialNoiseMultiplier }
-        fun styles(styles: List<String>) = apply { this.styles = styles }
-        fun seed(seed: Int) = apply { this.seed = seed }
-        fun subseed(subseed: Int) = apply { this.subseed = subseed }
-        fun subseedStrength(subseedStrength: Int) = apply { this.subseedStrength = subseedStrength }
-        fun seedResizeFromH(seedResizeFromH: Int) = apply { this.seedResizeFromH = seedResizeFromH }
-        fun seedResizeFromW(seedResizeFromW: Int) = apply { this.seedResizeFromW = seedResizeFromW }
-        fun batchSize(batchSize: Int) = apply { this.batchSize = batchSize }
-        fun nIter(nIter: Int) = apply { this.nIter = nIter }
-        fun steps(steps: Int) = apply { this.steps = steps }
-        fun cfgScale(cfgScale: Float) = apply { this.cfgScale = cfgScale }
-        fun imageCfgScale(imageCfgScale: Float) = apply { this.imageCfgScale = imageCfgScale }
-        fun width(width: Int) = apply { this.width = width }
-        fun height(height: Int) = apply { this.height = height }
-        fun restoreFaces(restoreFaces: Boolean) = apply { this.restoreFaces = restoreFaces }
-        fun tiling(tiling: Boolean) = apply { this.tiling = tiling }
-        fun doNotSaveSamples(doNotSaveSamples: Boolean) = apply { this.doNotSaveSamples = doNotSaveSamples }
-        fun eta(eta: Float) = apply { this.eta = eta }
-        fun sChurn(sChurn: Int) = apply { this.sChurn = sChurn }
-        fun sTmax(sTmax: Int) = apply { this.sTmax = sTmax }
-        fun sTmin(sTmin: Int) = apply { this.sTmin = sTmin }
-        fun sNoise(sNoise: Int) = apply { this.sNoise = sNoise }
-        fun overrideSettings(overrideSettings: Map<String, String>) = apply { this.overrideSettings = overrideSettings }
+        fun initImages(initImages: List<String>) = apply {
+            this.initImages = initImages
+        }
+
+        fun prompt(prompt: String) = apply {
+            this.prompt = prompt
+        }
+
+        fun negativePrompt(negativePrompt: String) = apply {
+            this.negativePrompt = negativePrompt
+        }
+
+        fun resizeMode(resizeMode: Int) = apply {
+            this.resizeMode = resizeMode
+        }
+
+        fun denoisingStrength(denoisingStrength: Float) = apply {
+            this.denoisingStrength = denoisingStrength
+        }
+
+        fun mask(mask: String?) = apply {
+            this.mask = mask
+        }
+
+        fun maskBlur(maskBlur: Int) = apply {
+            this.maskBlur = maskBlur
+        }
+
+        fun inpaintingFill(inpaintingFill: Int) = apply {
+            this.inpaintingFill = inpaintingFill
+        }
+
+        fun inpaintFullRes(inpaintFullRes: Boolean) = apply {
+            this.inpaintFullRes = inpaintFullRes
+        }
+
+        fun inpaintFullResPadding(inpaintFullResPadding: Int) = apply {
+            this.inpaintFullResPadding = inpaintFullResPadding
+        }
+
+        fun inpaintingMaskInvert(inpaintingMaskInvert: Int) = apply {
+            this.inpaintingMaskInvert = inpaintingMaskInvert
+        }
+
+        fun initialNoiseMultiplier(initialNoiseMultiplier: Int) = apply {
+            this.initialNoiseMultiplier = initialNoiseMultiplier
+        }
+
+        fun styles(styles: List<String>) = apply {
+            this.styles = styles
+        }
+
+        fun seed(seed: Int) = apply {
+            this.seed = seed
+        }
+
+        fun subseed(subseed: Int) = apply {
+            this.subseed = subseed
+        }
+
+        fun subseedStrength(subseedStrength: Int) = apply {
+            this.subseedStrength = subseedStrength
+        }
+
+        fun seedResizeFromH(seedResizeFromH: Int) = apply {
+            this.seedResizeFromH = seedResizeFromH
+        }
+
+        fun seedResizeFromW(seedResizeFromW: Int) = apply {
+            this.seedResizeFromW = seedResizeFromW
+        }
+
+        fun batchSize(batchSize: Int) = apply {
+            this.batchSize = batchSize
+        }
+
+        fun nIter(nIter: Int) = apply {
+            this.nIter = nIter
+        }
+
+        fun steps(steps: Int) = apply {
+            this.steps = steps
+        }
+
+        fun cfgScale(cfgScale: Float) = apply {
+            this.cfgScale = cfgScale
+        }
+
+        fun imageCfgScale(imageCfgScale: Float) = apply {
+            this.imageCfgScale = imageCfgScale
+        }
+
+        fun width(width: Int) = apply {
+            this.width = width
+        }
+
+        fun height(height: Int) = apply {
+            this.height = height
+        }
+
+        fun restoreFaces(restoreFaces: Boolean) = apply {
+            this.restoreFaces = restoreFaces
+        }
+
+        fun tiling(tiling: Boolean) = apply {
+            this.tiling = tiling
+        }
+
+        fun doNotSaveSamples(doNotSaveSamples: Boolean) = apply {
+            this.doNotSaveSamples = doNotSaveSamples
+        }
+
+        fun eta(eta: Float) = apply {
+            this.eta = eta
+        }
+
+        fun sChurn(sChurn: Int) = apply {
+            this.sChurn = sChurn
+        }
+
+        fun sTmax(sTmax: Int) = apply {
+            this.sTmax = sTmax
+        }
+
+        fun sTmin(sTmin: Int) = apply {
+            this.sTmin = sTmin
+        }
+
+        fun sNoise(sNoise: Int) = apply {
+            this.sNoise = sNoise
+        }
+
+        fun overrideSettings(overrideSettings: Map<String, String>) = apply {
+            this.overrideSettings = overrideSettings
+        }
+
         fun overrideSettingsRestoreAfterwards(overrideSettingsRestoreAfterwards: Boolean) = apply {
             this.overrideSettingsRestoreAfterwards = overrideSettingsRestoreAfterwards
         }
-        fun samplerName(samplerName: String) = apply { this.samplerName = samplerName }
-        fun samplerIndex(samplerIndex: String) = apply { this.samplerIndex = samplerIndex }
-        fun includeInitImages(includeInitImages: Boolean) = apply { this.includeInitImages = includeInitImages }
-        fun scriptName(scriptName: String) = apply { this.scriptName = scriptName }
-        fun scriptArgs(scriptArgs: List<String>) = apply { this.scriptArgs = scriptArgs }
-        fun sendImages(sendImages: Boolean) = apply { this.sendImages = sendImages }
-        fun saveImages(saveImages: Boolean) = apply { this.saveImages = saveImages }
+
+        fun samplerName(samplerName: String) = apply {
+            this.samplerName = samplerName
+        }
+
+        fun samplerIndex(samplerIndex: String) = apply {
+            this.samplerIndex = samplerIndex
+        }
+
+        fun includeInitImages(includeInitImages: Boolean) = apply {
+            this.includeInitImages = includeInitImages
+        }
+
+        fun scriptName(scriptName: String) = apply {
+            this.scriptName = scriptName
+        }
+
+        fun scriptArgs(scriptArgs: List<String>) = apply {
+            this.scriptArgs = scriptArgs
+        }
+
+        fun sendImages(sendImages: Boolean) = apply {
+            this.sendImages = sendImages
+        }
+
+        fun saveImages(saveImages: Boolean) = apply {
+            this.saveImages = saveImages
+        }
 
         fun alwaysonScripts(alwaysonScripts: Map<String, ScriptPayload>) = apply {
             this.alwaysonScripts.clear()
             this.alwaysonScripts.putAll(alwaysonScripts)
         }
+
         override fun addAlwaysonScript(key: String, payload: ScriptPayload) {
             this.alwaysonScripts[key] = payload
         }

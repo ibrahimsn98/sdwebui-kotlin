@@ -1,4 +1,4 @@
-package dev.ibrahims.sdwebuiapi.internal
+package dev.ibrahims.sdwebuiapi.internal.extension
 
 import io.ktor.http.*
 

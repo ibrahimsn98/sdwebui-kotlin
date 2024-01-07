@@ -30,21 +30,65 @@ class ControlNet private constructor(
             private var controlMode: Int = 0
             private var pixelPerfect: Boolean = false
 
-            fun inputImage(inputImage: String?) = apply { this.inputImage = inputImage }
-            fun module(module: String) = apply { this.module = module }
-            fun model(model: String) = apply { this.model = model }
-            fun weight(weight: Float) = apply { this.weight = weight }
-            fun resizeMode(resizeMode: String) = apply { this.resizeMode = resizeMode }
-            fun lowVRam(lowVRam: Boolean) = apply { this.lowVRam = lowVRam }
-            fun mask(mask: String?) = apply { this.mask = mask }
-            fun processorRes(processorRes: Int) = apply { this.processorRes = processorRes }
-            fun thresholdA(thresholdA: Float) = apply { this.thresholdA = thresholdA }
-            fun thresholdB(thresholdB: Float) = apply { this.thresholdB = thresholdB }
-            fun guidance(guidance: Float) = apply { this.guidance = guidance }
-            fun guidanceStart(guidanceStart: Float) = apply { this.guidanceStart = guidanceStart }
-            fun guidanceEnd(guidanceEnd: Float) = apply { this.guidanceEnd = guidanceEnd }
-            fun controlMode(controlMode: Int) = apply { this.controlMode = controlMode }
-            fun pixelPerfect(pixelPerfect: Boolean) = apply { this.pixelPerfect = pixelPerfect }
+            fun inputImage(inputImage: String?) = apply {
+                this.inputImage = inputImage
+            }
+
+            fun module(module: String) = apply {
+                this.module = module
+            }
+
+            fun model(model: String) = apply {
+                this.model = model
+            }
+
+            fun weight(weight: Float) = apply {
+                this.weight = weight
+            }
+
+            fun resizeMode(resizeMode: String) = apply {
+                this.resizeMode = resizeMode
+            }
+
+            fun lowVRam(lowVRam: Boolean) = apply {
+                this.lowVRam = lowVRam
+            }
+
+            fun mask(mask: String?) = apply {
+                this.mask = mask
+            }
+
+            fun processorRes(processorRes: Int) = apply {
+                this.processorRes = processorRes
+            }
+
+            fun thresholdA(thresholdA: Float) = apply {
+                this.thresholdA = thresholdA
+            }
+
+            fun thresholdB(thresholdB: Float) = apply {
+                this.thresholdB = thresholdB
+            }
+
+            fun guidance(guidance: Float) = apply {
+                this.guidance = guidance
+            }
+
+            fun guidanceStart(guidanceStart: Float) = apply {
+                this.guidanceStart = guidanceStart
+            }
+
+            fun guidanceEnd(guidanceEnd: Float) = apply {
+                this.guidanceEnd = guidanceEnd
+            }
+
+            fun controlMode(controlMode: Int) = apply {
+                this.controlMode = controlMode
+            }
+
+            fun pixelPerfect(pixelPerfect: Boolean) = apply {
+                this.pixelPerfect = pixelPerfect
+            }
 
             fun build() = Unit(
                 args = ControlNetScriptArgs(

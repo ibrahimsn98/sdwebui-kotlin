@@ -1,6 +1,6 @@
 package dev.ibrahims.sdwebuiapi
 
-import dev.ibrahims.sdwebuiapi.internal.buildUrl
+import dev.ibrahims.sdwebuiapi.internal.extension.buildUrl
 import dev.ibrahims.sdwebuiapi.response.ErrorResponse
 import dev.ibrahims.sdwebuiapi.service.*
 import io.ktor.client.*
@@ -64,9 +64,9 @@ class WebUiApi private constructor(
 
     class Builder {
 
-        private var host: String = "127.0.0.1"
+        private var host: String = DEFAULT_HOST
 
-        private var port: Int = 7860
+        private var port: Int = DEFAULT_PORT
 
         private var useHttps: Boolean = false
 
@@ -85,6 +85,8 @@ class WebUiApi private constructor(
 
     companion object {
 
+        const val DEFAULT_HOST: String = "127.0.0.1"
+        const val DEFAULT_PORT: Int = 7860
         const val DEFAULT_TIMEOUT: Long = 50 * 60 * 1000
     }
 }
