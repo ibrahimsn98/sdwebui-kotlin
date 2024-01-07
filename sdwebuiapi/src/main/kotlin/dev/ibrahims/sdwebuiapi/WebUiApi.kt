@@ -1,10 +1,7 @@
 package dev.ibrahims.sdwebuiapi
 
 import dev.ibrahims.sdwebuiapi.response.ErrorResponse
-import dev.ibrahims.sdwebuiapi.service.ControlNetService
-import dev.ibrahims.sdwebuiapi.service.ControlNetServiceImpl
-import dev.ibrahims.sdwebuiapi.service.StableDiffusionService
-import dev.ibrahims.sdwebuiapi.service.StableDiffusionServiceImpl
+import dev.ibrahims.sdwebuiapi.service.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
@@ -47,6 +44,10 @@ class WebUiApi private constructor(
 
     val controlNet: ControlNetService by lazy {
         ControlNetServiceImpl("http://$host:$port", client)
+    }
+
+    val reActor: ReActorService by lazy {
+        ReActorServiceImpl("http://$host:$port", client)
     }
 
     @Serializable

@@ -15,7 +15,7 @@ fun main() {
         .build()
 
     runBlocking {
-        val s4 = sdWebUiApi.controlNet.getSettings()
+        val s4 = sdWebUiApi.reActor.getUpscalers()
         println(s4.exceptionOrNull())
         println(s4.getOrNull())
     }
