@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebuiapi
 
+import dev.ibrahims.sdwebuiapi.internal.buildUrl
 import dev.ibrahims.sdwebuiapi.response.ErrorResponse
 import dev.ibrahims.sdwebuiapi.service.*
 import io.ktor.client.*
@@ -14,13 +15,17 @@ import kotlinx.serialization.json.Json
 class WebUiApi private constructor(
     private val host: String,
     private val port: Int,
+    private val useHttps: Boolean,
 ) {
+
+    private val baseUrl: String by lazy {
+        buildUrl(host, port, useHttps)
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     private val json by lazy {
         Json {
             isLenient = false
-            prettyPrint = true
             ignoreUnknownKeys = true
             encodeDefaults = true
             explicitNulls = false
@@ -33,25 +38,25 @@ class WebUiApi private constructor(
                 json(json)
             }
             install(HttpTimeout) {
-                requestTimeoutMillis = 50 * 60 * 1000
+                requestTimeoutMillis = DEFAULT_TIMEOUT
             }
         }
     }
 
     val core: CoreService by lazy {
-        CoreServiceImpl("http://$host:$port", client)
+        CoreServiceImpl(baseUrl, client)
     }
 
     val stableDiffusion: StableDiffusionService by lazy {
-        StableDiffusionServiceImpl("http://$host:$port", client)
+        StableDiffusionServiceImpl(baseUrl, client)
     }
 
     val controlNet: ControlNetService by lazy {
-        ControlNetServiceImpl("http://$host:$port", client)
+        ControlNetServiceImpl(baseUrl, client)
     }
 
     val reActor: ReActorService by lazy {
-        ReActorServiceImpl("http://$host:$port", client)
+        ReActorServiceImpl(baseUrl, client)
     }
 
     @Serializable
@@ -63,10 +68,23 @@ class WebUiApi private constructor(
 
         private var port: Int = 7860
 
+        private var useHttps: Boolean = false
+
         fun host(host: String) = apply { this.host = host }
 
         fun port(port: Int) = apply { this.port = port }
 
-        fun build() = WebUiApi(host, port)
+        fun useHttps(useHttps: Boolean) = apply { this.useHttps = useHttps }
+
+        fun build() = WebUiApi(
+            host = host,
+            port = port,
+            useHttps = useHttps,
+        )
+    }
+
+    companion object {
+
+        const val DEFAULT_TIMEOUT: Long = 50 * 60 * 1000
     }
 }
