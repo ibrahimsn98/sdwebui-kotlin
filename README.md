@@ -63,7 +63,8 @@ You can use Kotlin DSL builder with default parameter values or payload model di
 ```kotlin
 val result = api.runImage2image {
     initImages(listOf(loadImage("input-1.jpg")))
-    prompt("masterpiece")
+    prompt("cute dog, high quality, dog clothes")
+    negativePrompt("worst quality")
     samplerName("DPM++ 2M Karras")
     steps(25)
 }
@@ -294,7 +295,7 @@ repositories {
 // module build.gradle
 dependencies { 
     ...
-    implementation("com.github.ibrahimsn98:sdwebui-kotlin:1.0.0")
+    implementation("com.github.ibrahimsn98:sdwebui-kotlin:1.0.1")
 }
 ```
 
