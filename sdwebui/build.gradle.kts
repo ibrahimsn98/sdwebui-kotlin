@@ -1,11 +1,10 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
     id("maven-publish")
 }
-
-group = "dev.ibrahims"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -30,17 +29,32 @@ kotlin {
     jvmToolchain(17)
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
+val sourcesJar by tasks.creating(Jar::class) {
+    from(sourceSets.main.get().allSource)
+    archiveClassifier.set("sources")
 }
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("Maven") {
             groupId = "dev.ibrahims"
             artifactId = "sdwebui"
+            version = "1.0.3"
             from(components["java"])
+            artifact(sourcesJar)
         }
     }
 }
+
+tasks.withType(KotlinCompile::class) {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.majorVersion
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+    }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion))
+}
+
+

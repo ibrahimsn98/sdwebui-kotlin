@@ -16,31 +16,11 @@ class SdWebUi private constructor(
     private val host: String,
     private val port: Int,
     private val useHttps: Boolean,
+    private val client: HttpClient,
 ) {
 
     private val baseUrl: String by lazy {
         buildUrl(host, port, useHttps)
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    private val json by lazy {
-        Json {
-            isLenient = false
-            ignoreUnknownKeys = true
-            encodeDefaults = true
-            explicitNulls = false
-        }
-    }
-
-    private val client by lazy {
-        HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(json)
-            }
-            install(HttpTimeout) {
-                requestTimeoutMillis = DEFAULT_TIMEOUT
-            }
-        }
     }
 
     val core: CoreService by lazy {
@@ -80,7 +60,25 @@ class SdWebUi private constructor(
             host = host,
             port = port,
             useHttps = useHttps,
+            client = createClient(),
         )
+
+        private fun createClient() = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(createJson())
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = DEFAULT_TIMEOUT
+            }
+        }
+
+        @OptIn(ExperimentalSerializationApi::class)
+        private fun createJson() = Json {
+            isLenient = false
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+            explicitNulls = false
+        }
     }
 
     companion object {
