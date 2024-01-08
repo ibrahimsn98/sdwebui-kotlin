@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.interceptor.Interceptor
 import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
 import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
 import dev.ibrahims.sdwebui.payload.Image2ImagePayload
@@ -10,6 +11,7 @@ import io.ktor.client.*
 class StableDiffusionServiceImpl(
     override val baseUrl: String,
     override val client: HttpClient,
+    override val interceptors: List<Interceptor>,
 ) : Service(), StableDiffusionService {
 
     override suspend fun text2Image(payload: Text2ImagePayload): Result<GenerateProcessResponse> {

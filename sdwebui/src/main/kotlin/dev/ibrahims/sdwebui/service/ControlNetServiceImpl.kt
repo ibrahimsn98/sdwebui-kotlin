@@ -1,5 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
+import dev.ibrahims.sdwebui.interceptor.Interceptor
 import dev.ibrahims.sdwebui.response.ControlNetControlTypesResponse
 import dev.ibrahims.sdwebui.response.ControlNetModelsResponse
 import dev.ibrahims.sdwebui.response.ControlNetModulesResponse
@@ -9,6 +10,7 @@ import io.ktor.client.*
 class ControlNetServiceImpl(
     override val baseUrl: String,
     override val client: HttpClient,
+    override val interceptors: List<Interceptor>,
 ) : Service(), ControlNetService {
 
     override suspend fun getVersion(): Result<ControlNetVersionResponse> {

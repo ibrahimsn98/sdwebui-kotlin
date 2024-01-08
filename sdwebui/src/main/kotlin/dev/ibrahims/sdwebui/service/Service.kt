@@ -1,6 +1,7 @@
 package dev.ibrahims.sdwebui.service
 
 import dev.ibrahims.sdwebui.SdWebUi
+import dev.ibrahims.sdwebui.interceptor.Interceptor
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -12,11 +13,16 @@ abstract class Service {
 
     abstract val client: HttpClient
 
+    abstract val interceptors: List<Interceptor>
+
     protected suspend inline fun <reified T> getRequest(
         path: String,
     ): Result<T> = runCatching {
+        val url = interceptors.fold(path) { next, interceptor ->
+            interceptor.interceptUrl(baseUrl, next)
+        }
         val response = client.get {
-            url("$baseUrl/$path")
+            url(url)
             contentType(ContentType.Application.Json)
         }
         if (response.status.isSuccess()) {
@@ -28,10 +34,16 @@ abstract class Service {
 
     protected suspend inline fun <reified T> postRequest(
         path: String,
-        body: Any? = null,
+        payload: Any? = null,
     ): Result<T> = runCatching {
+        val url = interceptors.fold(path) { next, interceptor ->
+            interceptor.interceptUrl(baseUrl, next)
+        }
+        val body =  interceptors.fold(payload) { next, interceptor ->
+            interceptor.interceptBody(next)
+        }
         val response = client.post {
-            url("$baseUrl/$path")
+            url(url)
             contentType(ContentType.Application.Json)
             if (body != null) setBody(body)
         }
