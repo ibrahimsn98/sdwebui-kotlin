@@ -1,22 +1,18 @@
 package dev.ibrahims.sdwebui
 
+import dev.ibrahims.sdwebui.client.Client
+import dev.ibrahims.sdwebui.client.DefaultClient
 import dev.ibrahims.sdwebui.internal.extension.buildUrl
-import dev.ibrahims.sdwebui.response.ErrorResponse
 import dev.ibrahims.sdwebui.service.*
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 class SdWebUi private constructor(
     private val host: String,
     private val port: Int,
     private val useHttps: Boolean,
-    private val client: HttpClient,
+    private val client: Client,
+    private val json: Json,
 ) {
 
     private val baseUrl: String by lazy {
@@ -24,23 +20,20 @@ class SdWebUi private constructor(
     }
 
     val core: CoreService by lazy {
-        CoreServiceImpl(baseUrl, client)
+        CoreServiceImpl(baseUrl, client, json)
     }
 
     val stableDiffusion: StableDiffusionService by lazy {
-        StableDiffusionServiceImpl(baseUrl, client)
+        StableDiffusionServiceImpl(baseUrl, client, json)
     }
 
     val controlNet: ControlNetService by lazy {
-        ControlNetServiceImpl(baseUrl, client)
+        ControlNetServiceImpl(baseUrl, client,json)
     }
 
     val reActor: ReActorService by lazy {
-        ReActorServiceImpl(baseUrl, client)
+        ReActorServiceImpl(baseUrl, client, json)
     }
-
-    @Serializable
-    data class Error(val response: ErrorResponse) : Throwable(response.errors)
 
     class Builder {
 
@@ -50,34 +43,40 @@ class SdWebUi private constructor(
 
         private var useHttps: Boolean = false
 
-        fun host(host: String) = apply { this.host = host }
+        private var client: Client? = null
 
-        fun port(port: Int) = apply { this.port = port }
+        fun host(host: String) = apply {
+            this.host = host
+        }
 
-        fun useHttps(useHttps: Boolean) = apply { this.useHttps = useHttps }
+        fun port(port: Int) = apply {
+            this.port = port
+        }
+
+        fun useHttps(useHttps: Boolean) = apply {
+            this.useHttps = useHttps
+        }
+
+        fun client(client: Client) = apply {
+            this.client = client
+        }
 
         fun build() = SdWebUi(
             host = host,
             port = port,
             useHttps = useHttps,
-            client = createClient(),
+            client = client ?: DefaultClient(json),
+            json = json,
         )
 
-        private fun createClient() = HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(createJson())
-            }
-            install(HttpTimeout) {
-                requestTimeoutMillis = DEFAULT_TIMEOUT
-            }
-        }
-
         @OptIn(ExperimentalSerializationApi::class)
-        private fun createJson() = Json {
-            isLenient = false
-            ignoreUnknownKeys = true
-            encodeDefaults = true
-            explicitNulls = false
+        private val json: Json by lazy {
+            Json {
+                isLenient = false
+                ignoreUnknownKeys = true
+                encodeDefaults = true
+                explicitNulls = false
+            }
         }
     }
 
