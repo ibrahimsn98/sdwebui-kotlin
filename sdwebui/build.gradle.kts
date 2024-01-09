@@ -39,9 +39,10 @@ publishing {
         create<MavenPublication>("Maven") {
             groupId = "dev.ibrahims"
             artifactId = "sdwebui"
-            version = "1.0.3"
-            from(components["java"])
-            artifact(sourcesJar)
+            afterEvaluate {
+                from(components["java"])
+                artifact(sourcesJar)
+            }
         }
     }
 }
@@ -56,5 +57,3 @@ tasks.withType(KotlinCompile::class) {
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion))
 }
-
-
