@@ -386,7 +386,7 @@ dependencies {
 - [ ] Roop extension support.
 - [x] Image upscaling support.
 - [ ] Web UI scripts support.
-- [ ] RemBG extension support.
+- [x] RemBG extension support.
 - [ ] SegmentAnything extension support.
 - [ ] Interrogate support.
 
