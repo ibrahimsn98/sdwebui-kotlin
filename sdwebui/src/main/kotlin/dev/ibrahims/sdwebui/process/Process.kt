@@ -5,6 +5,7 @@ import dev.ibrahims.sdwebui.payload.script.ScriptPayload
 import dev.ibrahims.sdwebui.response.ExtraBatchImagesResponse
 import dev.ibrahims.sdwebui.response.ExtraSingleImageResponse
 import dev.ibrahims.sdwebui.response.GenerateProcessResponse
+import dev.ibrahims.sdwebui.response.RemBGResponse
 
 interface Process {
 
@@ -43,6 +44,14 @@ interface Process {
             init: ExtraBatchImages.Builder.() -> Unit,
         ): Result<ExtraBatchImagesResponse> {
             val builder = ExtraBatchImages.Builder(stableDiffusion)
+            builder.init()
+            return builder.build().run()
+        }
+
+        suspend fun SdWebUi.runRemBG(
+            init: RemBG.Builder.() -> Unit
+        ): Result<RemBGResponse> {
+            val builder = RemBG.Builder(stableDiffusion)
             builder.init()
             return builder.build().run()
         }
