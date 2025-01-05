@@ -1,9 +1,6 @@
 package dev.ibrahims.sdwebui.service
 
-import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
-import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
-import dev.ibrahims.sdwebui.payload.Image2ImagePayload
-import dev.ibrahims.sdwebui.payload.Text2ImagePayload
+import dev.ibrahims.sdwebui.payload.*
 import dev.ibrahims.sdwebui.response.*
 
 interface StableDiffusionService {
@@ -55,4 +52,6 @@ interface StableDiffusionService {
     suspend fun setModel(model: String): Result<Unit>
 
     suspend fun refreshCheckpoints(): Result<Unit>
+
+    suspend fun remBG(payload: RemBGPayload): Result<RemBGResponse>
 }

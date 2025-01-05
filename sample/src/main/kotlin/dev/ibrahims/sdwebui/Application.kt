@@ -19,6 +19,7 @@ fun main() {
         //runReActor(sdWebUiApi)
         //runExtraSingleImage(sdWebUiApi)
         //runExtraBatchImages(sdWebUiApi)
+        //runRemBG(sdWebUiApi)
     }
 }
 

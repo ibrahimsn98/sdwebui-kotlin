@@ -4,10 +4,7 @@ import dev.ibrahims.sdwebui.client.Client
 import dev.ibrahims.sdwebui.client.Client.Companion.body
 import dev.ibrahims.sdwebui.client.Client.Companion.get
 import dev.ibrahims.sdwebui.client.Client.Companion.post
-import dev.ibrahims.sdwebui.payload.ExtraBatchImagesPayload
-import dev.ibrahims.sdwebui.payload.ExtraSingleImagePayload
-import dev.ibrahims.sdwebui.payload.Image2ImagePayload
-import dev.ibrahims.sdwebui.payload.Text2ImagePayload
+import dev.ibrahims.sdwebui.payload.*
 import dev.ibrahims.sdwebui.response.*
 import kotlinx.serialization.json.Json
 
@@ -133,6 +130,14 @@ class StableDiffusionServiceImpl(
         return client.post(json) {
             baseUrl(baseUrl)
             path("sdapi/v1/refresh-checkpoints")
+        }
+    }
+
+    override suspend fun remBG(payload: RemBGPayload): Result<RemBGResponse> {
+        return client.post(json) {
+            baseUrl(baseUrl)
+            path("rembg")
+            body(payload)
         }
     }
 }

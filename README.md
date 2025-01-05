@@ -328,6 +328,42 @@ val images = requireNotNull(result.getOrNull()).images
  </tr>
 </table>
 
+### RemBG
+
+`# https://github.com/AUTOMATIC1111/stable-diffusion-webui-rembg`
+
+You can use Kotlin DSL builder to use RemBG process with default parameter values.
+
+```kotlin
+val result = api.runRemBG {
+    inputImage(loadImage("input-3.png"))
+}
+if (result.isFailure) {
+    return println(result.exceptionOrNull())
+}
+saveImage(result.getOrNull()?.image.orEmpty())
+```
+
+Alternatively, you can use direct payload model with the stable diffusion service.
+```kotlin
+val payload = RemBGPayload(
+    inputImage = loadImage("input-3.png"),
+    //... other parameters
+)
+
+val result = api.stableDiffusion.remBG(payload)
+```
+<table width="100%">
+ <tr>
+  <td width="50%" style="text-align: center">Input Image</td>
+  <td width="50%" style="text-align: center">RemBG Output</td>
+ </tr>
+ <tr>
+  <td width="50%" style="text-align: center"><img src="input/input-3.png"></td>
+  <td width="50%" style="text-align: center"><img src="art/art-12.jpg"></td>
+ </tr>
+</table>
+
 ## Installation
 
 ```kotlin
@@ -350,7 +386,7 @@ dependencies {
 - [ ] Roop extension support.
 - [x] Image upscaling support.
 - [ ] Web UI scripts support.
-- [ ] RemBG extension support.
+- [x] RemBG extension support.
 - [ ] SegmentAnything extension support.
 - [ ] Interrogate support.
 
